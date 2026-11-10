@@ -1,21 +1,25 @@
 import numpy as np
-def analyser_ventes(transactions):
-    ventes = np.array(transactions)
-    ventes = ventes[ventes>0]
-    if len (ventes) ==0:
-        return {"erreur"}
+import pandas as pd
 
-    nombre = len(ventes)
-    total = np.sum(ventes)
-    moyenne= np.mean(ventes)
-    mediane = np.median(ventes)
-    ecart_type= np.std(ventes)
-    maximum = np.max(ventes)
-    minimum = np.min(ventes)
+sales=pd.read_csv("data/sales.csv")   ### Import du fichier sales.csv
 
-    anomalies = ventes[ventes> 2*moyenne]
+def analyser_ventes(ventes, montant):  ## On définit la fonction
+    if len(ventes)==0:
+     print("erreur")
+     return{"erreur"}
+    
+    else: 
+        nombre=len(ventes)
+        nombre = len(ventes)
+        total = np.sum(ventes[montant])
+        moyenne= np.mean(ventes[montant])
+        mediane = np.median(ventes[montant])
+        ecart_type= np.std(ventes[montant])
+        maximum = np.max(ventes[montant])
+        minimum = np.min(ventes[montant])
+        anomalies = ventes[ventes[montant]>2*moyenne][montant]
 
-    return {"Nombre de ventes": int(nombre),
+    resultat = {"Nombre de ventes": int(nombre),    ###On récupère les valeurs et on les stocke dans un dictionnaire
         "Total des ventes": float(total),
         "Moyenne": float(moyenne),
         "Médiane": float(mediane),
@@ -24,9 +28,11 @@ def analyser_ventes(transactions):
         "Maximum": float(maximum),
         "Anomalies": anomalies.tolist()}
 
-transactions = [150, 200, 250, 300, 400, -50, 0]
 
-resultat = analyser_ventes(transactions)
+    for i, valeur in resultat.items():   ###Affichage ligne par ligne
+        print(f"{i}:{valeur}")
 
-for i, valeur in resultat.items():
-    print(f"{i} : {valeur}")
+    return resultat
+
+
+analyser_ventes(sales, "montant")  ###On execute la fonction
