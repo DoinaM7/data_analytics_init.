@@ -1,1 +1,10 @@
-/data
+# Environnement virtuel Python
+venv/
+.venv/
+
+# Configuration VS Code
+.vscode/
+
+# Cache Python
+__pycache__/
+*.pyc
